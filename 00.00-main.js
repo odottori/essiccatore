@@ -1,5 +1,5 @@
 // File: 00.00-main.js
-// Descrizione: Script principale per la simulazione stagionale e il controllo dell'essiccatore.
+// Descrizione: Script principale per la simulazione stagionale e il controllo dell'essiccatore e del frigo.
 
 // Funzione per ottenere i range stagionali di temperatura e umidità
 function getSeasonalRanges() {
@@ -72,6 +72,35 @@ function updateDateTime() {
     }
 }
 
+// Funzione per gestire il pulsante dell'essiccatore e sincronizzare il frigo
+function toggleEssiccatore() {
+    const simulatorToggle = document.getElementById('toggle-fridge-simulator');
+    const fridgeToggle = document.getElementById('toggle-fridge');
+
+    if (!simulatorToggle || !fridgeToggle) {
+        console.error("Elementi del simulatore o del frigo non trovati. Verifica che gli ID siano corretti.");
+        return;
+    }
+
+    if (simulatorToggle.textContent.includes("SPENTO")) {
+        simulatorToggle.textContent = "ACCESO";
+        simulatorToggle.style.backgroundColor = "green";
+
+        fridgeToggle.textContent = "ACCESO";
+        fridgeToggle.style.backgroundColor = "green";
+
+        console.log("Essiccatore e frigo accesi.");
+    } else {
+        simulatorToggle.textContent = "SPENTO";
+        simulatorToggle.style.backgroundColor = "red";
+
+        fridgeToggle.textContent = "SPENTO";
+        fridgeToggle.style.backgroundColor = "gray";
+
+        console.log("Essiccatore e frigo spenti.");
+    }
+}
+
 // Funzione per simulare l'essiccatore
 function simulateEssiccatore() {
     const simulatorToggle = document.getElementById('toggle-fridge-simulator');
@@ -111,6 +140,28 @@ function simulateEssiccatore() {
     console.log(`Essiccatore aggiornato: Temp: ${essiccatoreTemp}°C, Umidità: ${essiccatoreHumidity}%`);
 }
 
+// Funzione per calcolare e ripristinare gli step di temperatura e umidità
+function calculateSteps(volume, power, insulation) {
+    const tempStep = (power / volume) * insulation * 0.1; // Calcolo ipotetico per temp
+    const humStep = insulation * 0.05; // Calcolo ipotetico per umidità
+
+    return { tempStep: tempStep.toFixed(2), humStep: humStep.toFixed(2) };
+}
+
+// Funzione per ripristinare gli step calcolati
+function resetSteps() {
+    const volume = parseFloat(document.getElementById('volume-frigo').value);
+    const power = parseFloat(document.getElementById('potenza-frigo').value);
+    const insulation = parseFloat(document.getElementById('isolamento-frigo').value);
+
+    const steps = calculateSteps(volume, power, insulation);
+
+    document.getElementById('temp-increase').value = steps.tempStep;
+    document.getElementById('current-humidity').value = steps.humStep;
+
+    console.log(`Step ripristinati: Temp Step = ${steps.tempStep}, Hum Step = ${steps.humStep}`);
+}
+
 // Funzione per simulare il frigo
 function simulateFrigo() {
     const fridgeToggle = document.getElementById('toggle-fridge');
@@ -142,6 +193,21 @@ function simulateFrigo() {
             } else {
                 clearInterval(coolingInterval);
                 fridgeLed.style.backgroundColor = "red"; // Compressore spento
+
+                // Aumenta la temperatura spontaneamente
+                const volume = parseFloat(document.getElementById('volume-frigo').value);
+                const power = parseFloat(document.getElementById('potenza-frigo').value);
+                const insulation = parseFloat(document.getElementById('isolamento-frigo').value);
+                const steps = calculateSteps(volume, power, insulation);
+
+                const spontaneousInterval = setInterval(() => {
+                    if (essiccatoreTemp < cantinaTemp) {
+                        essiccatoreTemp += parseFloat(steps.tempStep);
+                        essiccatoreTempInput.value = essiccatoreTemp.toFixed(1);
+                    } else {
+                        clearInterval(spontaneousInterval);
+                    }
+                }, coolingTimeStep);
             }
         }, coolingTimeStep);
     } else {
