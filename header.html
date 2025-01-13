@@ -1,0 +1,143 @@
+<!-- File: header.html
+Descrizione: File per il caricamento dinamico dell'header. -->
+
+<!-- Sezione di Controllo -->
+<div class="control-section">
+    <h1>Controllo Essiccatore</h1>
+    <div class="peripherals">
+        <!-- Essiccatore -->
+        <div class="peripheral essiccatore">
+            <table>
+                <tr>
+                    <td colspan="2">Essiccatore</td>
+                    <td class="align-right-button">
+                        <button id="toggle-dryer" onclick="toggleDryer()">
+                            <i class="fas fa-power-off"></i> SPENTO
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td class="align-right">
+                        <div class="inline-items">
+                            <label for="dryer-temp">Temperatura:</label>
+                            <p id="dryer-temp">20 °C</p>
+                        </div>
+                    </td>
+                    <td class="align-right">
+                        <div class="inline-items">
+                            <label for="dryer-humidity">Umidità:</label>
+                            <p id="dryer-humidity">50 %</p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Frigo -->
+        <div class="peripheral">
+            <table>
+                <tr>
+                    <td colspan="2">Frigo</td>
+                    <td class="align-right-button">
+                        <button id="toggle-fridge" onclick="toggleFridge()">
+                            <i class="fas fa-power-off"></i> SPENTO
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td class="align-right">
+                        <label for="fridge-tmin">Tmin (°C):</label>
+                        <input type="number" id="fridge-tmin" value="4" step="0.5" min="0" max="99.99" onchange="updateLog('Frigo Tmin aggiornato a: ' + this.value)">
+                    </td>
+                    <td class="align-right">
+                        <label for="fridge-tmax">Tmax (°C):</label>
+                        <input type="number" id="fridge-tmax" value="8" step="0.5" min="0" max="99.99" onchange="updateLog('Frigo Tmax aggiornato a: ' + this.value)">
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Riscaldatore -->
+        <div class="peripheral">
+            <table>
+                <tr>
+                    <td colspan="2">Riscaldatore</td>
+                    <td class="align-right-button">
+                        <button id="toggle-heater" onclick="toggleHeater()">
+                            <i class="fas fa-power-off"></i> SPENTO
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td class="align-right">
+                        <label for="heater-tmin">Tmin (°C):</label>
+                        <input type="number" id="heater-tmin" value="12" step="0.5" min="0" max="99.99" onchange="updateLog('Riscaldatore Tmin aggiornato a: ' + this.value)">
+                    </td>
+                    <td class="align-right">
+                        <label for="heater-tmax">Tmax (°C):</label>
+                        <input type="number" id="heater-tmax" value="18" step="0.5" min="0" max="99.99" onchange="updateLog('Riscaldatore Tmax aggiornato a: ' + this.value)">
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Umidificatore -->
+        <div class="peripheral">
+            <table>
+                <tr>
+                    <td colspan="2">Umidificatore</td>
+                    <td class="align-right-button">
+                        <button id="toggle-humidifier" onclick="toggleHumidifier()">
+                            <i class="fas fa-power-off"></i> SPENTO
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td class="align-right">
+                        <label for="humidifier-hmin">%min:</label>
+                        <input type="number" id="humidifier-hmin" value="60" step="0.01" min="0" max="99.99" onchange="updateLog('Umidificatore %min aggiornato a: ' + this.value)">
+                    </td>
+                    <td class="align-right">
+                        <label for="humidifier-hmax">%max:</label>
+                        <input type="number" id="humidifier-hmax" value="80" step="0.01" min="0" max="99.99" onchange="updateLog('Umidificatore %max aggiornato a: ' + this.value)">
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Ventola -->
+        <div class="peripheral">
+            <table>
+                <tr>
+                    <td colspan="2">Ventola</td>
+                    <td class="align-right-button">
+                        <button id="toggle-fan" onclick="toggleFan()">
+                            <i class="fas fa-power-off"></i> SPENTO
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="fan-param">Reagisce a:</label>
+                        <select id="fan-param" onchange="updateLog('Ventola reagisce a: ' + this.value)">
+                            <option value="temperature">Temperatura (°C)</option>
+                            <option value="humidity">Umidità (%)</option>
+                        </select>
+                    </td>
+                    <td class="align-right">
+                        <label id="fan-min-label" for="fan-min">Tmin (°C):</label>
+                        <input type="number" id="fan-min" value="15" step="0.5" min="0" max="99.99" onchange="updateLog('Ventola Tmin aggiornato a: ' + this.value)">
+                    </td>
+                    <td class="align-right">
+                        <label id="fan-max-label" for="fan-max">Tmax (°C):</label>
+                        <input type="number" id="fan-max" value="25" step="0.5" min="0" max="99.99" onchange="updateLog('Ventola Tmax aggiornato a: ' + this.value)">
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

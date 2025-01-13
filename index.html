@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controllo Essiccatore per Salumi</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <h1>Controllo Essiccatore per Salumi</h1>
+        </header>
+
+        <!-- Sezione Simulatore -->
+        <div class="simulator-section">
+            <div class="simulator-header">
+                <h2>SIMULATORE ESSICCATORE</h2>
+                <button id="toggle-fridge-simulator">
+                    <i class="fas fa-power-off"></i> SPENTO
+                </button>
+            </div>
+        </div>
+
+        <!-- Sezione CANTINA -->
+        <div class="section">
+            <table class="main-table">
+                <tr class="header-row">
+                    <th class="section-name cell-10 cell-align-left">CANTINA</th>
+                    <td class="cell-30 cell-align-right">
+                        <input type="text" id="data-ora" value="" disabled>
+                    </td>
+                    <td class="cell-30 cell-align-right">
+                        <label>Temp. (°C):</label>
+                        <input type="number" id="cantina-temp" value="" disabled>
+                    </td>
+                    <td class="cell-30 cell-align-right">
+                        <label>Umidità (%):</label>
+                        <input type="number" id="cantina-humidity" value="" disabled>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Sezione STATO -->
+        <div class="section">
+            <table class="main-table">
+                <tr class="header-row">
+                    <th class="section-name cell-10 cell-align-left">STATO</th>
+                    <td class="cell-30"></td>
+                    <td class="cell-30 cell-align-right">
+                        <label>Temp. (°C):</label>
+                        <input type="number" id="current-temp" value="20.0" step="0.1" min="-50" max="100" disabled>
+                    </td>
+                    <td class="cell-30 cell-align-right">
+                        <label>Umidità (%):</label>
+                        <input type="number" id="current-humidity" value="50.0" step="0.1" min="0" max="100" disabled>
+                    </td>
+                </tr>
+                <tr class="detail-row">
+                    <td class="cell-10 cell-align-right">OFF</td>
+                    <td class="cell-30 cell-align-right">
+                        <label>min (°C):</label>
+                        <input type="number" id="simulator-tmin" value="4.0" step="0.5" min="0" max="99.99">
+                    </td>
+                    <td class="cell-30 cell-align-right">
+                        <label>step (s):</label>
+                        <i class="fas fa-sync-alt reset-icon" data-target="heating-time-step"></i>
+                        <input type="number" id="heating-time-step" value="4.1" step="0.1" min="1" max="3600">
+                    </td>
+                    <td class="cell-30 cell-align-right">
+                        <label>step (°C):</label>
+                        <i class="fas fa-sync-alt reset-icon" data-target="temp-increase"></i>
+                        <input type="number" id="temp-increase" value="0.5" step="0.1" min="0.5" max="10">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4">
+                        <div class="graph-section">
+                            <div class="graph-header">
+                                <h4>Andamento Temperatura e Umidità</h4>
+                                <div class="graph-controls">
+                                    <label for="time-range">Intervallo temporale:</label>
+                                    <select id="time-range">
+                                        <option value="3">3 ore</option>
+                                        <option value="6">6 ore</option>
+                                        <option value="12">12 ore</option>
+                                        <option value="24">24 ore</option>
+                                        <option value="168">1 settimana</option>
+                                        <option value="720">1 mese</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div id="graph-container">
+                                <canvas id="graph-canvas"></canvas>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Sezione FRIGO -->
+        <div class="section">
+            <table class="main-table">
+                <tr class="header-row">
+                    <th class="section-name cell-10 cell-align-left" colspan="3">FRIGO</th>
+                    <td class="cell-30 cell-align-right">
+                        <button id="toggle-fridge">
+                            <i class="fas fa-power-off"></i> SPENTO
+                        </button>
+                    </td>
+                </tr>
+                <tr class="detail-row">
+                    <td class="cell-10 cell-align-right">Caratt.</td>
+                    <td class="cell-30 cell-align-right">Volume (m³): <input type="number" id="volume-frigo" value="0.2" step="0.01" min="0.1" max="1.0"></td>
+                    <td class="cell-30 cell-align-right">Potenza (W): <input type="number" id="potenza-frigo" value="150" step="10" min="50" max="300"></td>
+                    <td class="cell-30 cell-align-right">Isol.(W/m²K): <input type="number" id="isolamento-frigo" value="0.15" step="0.01" min="0.1" max="0.5"></td>
+                </tr>
+                <tr class="detail-row">
+                    <td class="cell-10 cell-align-right">ON</td>
+                    <td class="cell-30 cell-align-right">
+                        <label>max (°C):</label>
+                        <input type="number" id="simulator-tmax" value="8.0" step="0.5" min="0" max="99.99">
+                    </td>
+                    <td class="cell-30 cell-align-right">
+                        <label>step (s):</label>
+                        <i class="fas fa-sync-alt reset-icon" data-target="cooling-time-step"></i>
+                        <input type="number" id="cooling-time-step" value="8.2" step="0.1" min="1" max="3600">
+                    </td>
+                    <td class="cell-30 cell-align-right">
+                        <label>step (°C):</label>
+                        <i class="fas fa-sync-alt reset-icon" data-target="temp-decrease"></i>
+                        <input type="number" id="temp-decrease" value="1.0" step="0.1" min="0.5" max="10">
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Sezione DEUMIDIFICATORE -->
+        <div class="section">
+            <table class="main-table">
+                <tr class="header-row">
+                    <th class="section-name cell-40 cell-align-left" colspan="2">DEUMIDIFICATORE</th>
+                    <td class="cell-30 cell-align-right">
+                        <label for="potenza-deumidificatore">Lampada (W):</label>
+                        <input type="number" id="potenza-deumidificatore" value="200" step="10" min="50" max="500">
+                    </td>
+                    <td class="cell-30 cell-align-right">
+                        <button id="toggle-deumidificatore">
+                            <i class="fas fa-power-off"></i> SPENTO
+                        </button>
+                    </td>
+                </tr>
+                <tr class="detail-row">
+                    <td class="cell-10 cell-align-right">Parametri</td>
+                    <td class="cell-30 cell-align-right">
+                        <label>%min:</label>
+                        <input type="number" id="deumidificatore-max" value="80" step="1" min="0" max="100">
+                    </td>
+                    <td class="cell-30 cell-align-right">
+                        <label>step (s):</label>
+                        <i class="fas fa-sync-alt reset-icon" data-target="deumidificatore-timestep"></i>
+                        <input type="number" id="deumidificatore-timestep" value="10" step="0.1" min="1" max="3600">
+                    </td>
+                    <td class="cell-30 cell-align-right">
+                        <label>step (%):</label>
+                        <i class="fas fa-sync-alt reset-icon" data-target="deumidificatore-step"></i>
+                        <input type="number" id="deumidificatore-step" value="1.0" step="0.1" min="0.1" max="10">
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Sezione UMIDIFICATORE -->
+        <div class="section">
+            <table class="main-table">
+                <tr class="header-row">
+                    <th class="section-name cell-40 cell-align-left" colspan="2">UMIDIFICATORE</th>
+                    <td class="cell-30 cell-align-right">
+                        <label for="portata-umidificatore">Atomizz. (ml/h):</label>
+                        <input type="number" id="portata-umidificatore" value="100" step="10" min="50" max="500">
+                    </td>
+                    <td class="cell-30 cell-align-right">
+                        <button id="toggle-umidificatore">
+                            <i class="fas fa-power-off"></i> SPENTO
+                        </button>
+                    </td>
+                </tr>
+                <tr class="detail-row">
+                    <td class="cell-10 cell-align-right">Parametri</td>
+                    <td class="cell-30 cell-align-right">
+                        <label>%min:</label>
+                        <input type="number" id="umidificatore-min" value="60" step="1" min="0" max="100">
+                    </td>
+                    <td class="cell-30 cell-align-right">
+                        <label>step (s):</label>
+                        <i class="fas fa-sync-alt reset-icon" data-target="umidificatore-timestep"></i>
+                        <input type="number" id="umidificatore-timestep" value="10" step="0.1" min="1" max="3600">
+                    </td>
+                    <td class="cell-30 cell-align-right">
+                        <label>step (%):</label>
+                        <i class="fas fa-sync-alt reset-icon" data-target="umidificatore-step"></i>
+                        <input type="number" id="umidificatore-step" value="1.0" step="0.1" min="0.1" max="10">
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Sezione VENTILAZIONE -->
+        <div class="section">
+            <table class="main-table">
+                <tr class="header-row">
+                    <th class="section-name cell-70 cell-align-left" colspan="3">VENTILAZIONE</th>
+                    <td class="cell-30 cell-align-right">
+                        <button id="toggle-ventilazione">
+                            <i class="fas fa-power-off"></i> SPENTO
+                        </button>
+                    </td>
+                </tr>
+                <tr class="detail-row">
+                    <td class="cell-10 cell-align-right">Parametri</td>
+                    <td class="cell-30 cell-align-right">
+                        <label for="ventilazione-param">Reagisce a:</label>
+                        <select id="ventilazione-param">
+                            <option value="temperature">Temperatura (°C)</option>
+                            <option value="humidity">Umidità (%)</option>
+                        </select>
+                    </td>
+                    <td class="cell-30 cell-align-right">
+                        <label id="ventilazione-min-label" for="ventilazione-min">min (°C):</label>
+                        <input type="number" id="ventilazione-min" value="15" step="0.5" min="0" max="99.99">
+                    </td>
+                    <td class="cell-30 cell-align-right">
+                        <label id="ventilazione-max-label" for="ventilazione-max">max (°C):</label>
+                        <input type="number" id="ventilazione-max" value="25" step="0.5" min="0" max="99.99">
+                    </td>
+                </tr>
+                <tr class="detail-row">
+                    <td class="cell-10 cell-align-right">Velocità</td>
+                    <td class="cell-30 cell-align-right">
+                        <label for="ventilazione-intervallo">Intervallo (min):</label>
+                        <input type="number" id="ventilazione-intervallo" value="10" step="1" min="1" max="60">
+                    </td>
+                    <td class="cell-30 cell-align-right">
+                        <label for="ventilazione-durata">Durata (min):</label>
+                        <input type="number" id="ventilazione-durata" value="5" step="1" min="1" max="60">
+                    </td>
+                    <td class="cell-30 cell-align-right">
+                        <label for="ventilazione-velocita">Velocità:</label>
+                        <select id="ventilazione-velocita">
+                            <option value="bassa">Bassa</option>
+                            <option value="media">Media</option>
+                            <option value="alta">Alta</option>
+                        </select>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Sezione Log Eventi -->
+        <div class="log-section">
+            <h2>Log Eventi</h2>
+            <div class="log-buttons">
+                <button id="clear-log">Pulisci Log</button>
+                <button id="export-log">Esporta Log</button>
+            </div>
+            <div id="log-container">
+                <p>Log vuoto...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Riferimento ai file JavaScript esterni -->
+    <script type="module" src="updated_main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</body>
+</html>

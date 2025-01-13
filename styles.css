@@ -1,0 +1,171 @@
+/* File: styles.css */
+/* Descrizione: File CSS per lo stile dell'interfaccia web. */
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: #fff;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1, h2, h3 {
+    color: #333;
+}
+
+.simulator-section {
+    margin-bottom: 20px;
+}
+
+.simulator-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.section {
+    margin-bottom: 20px;
+}
+
+.main-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.main-table th, .main-table td {
+    padding: 10px;
+    border: none; /* Rimuove i bordi */
+}
+
+.section-name {
+    font-weight: bold;
+}
+
+/* Classi per larghezze */
+.cell-10 {
+    width: 10%;
+}
+
+.cell-30 {
+    width: 30%;
+}
+
+.cell-40 {
+    width: 40%;
+}
+
+.cell-70 {
+    width: 70%;
+}
+
+/* Classi per allineamenti */
+.cell-align-left {
+    text-align: left;
+}
+
+.cell-align-right {
+    text-align: right;
+}
+
+/* Stile per le righe di intestazione */
+.header-row {
+    background-color: #f0f0f0; /* Colore di sfondo per le intestazioni */
+    font-weight: bold; /* Testo in grassetto */
+    border-bottom: 2px solid #ddd; /* Bordo inferiore */
+}
+
+/* Stile per le righe di dettaglio */
+.detail-row {
+    background-color: #f9f9f9; /* Colore di sfondo per i dettagli */
+    border-bottom: 1px solid #eee; /* Bordo inferiore più leggero */
+}
+
+/* Aggiungi un po' di spazio tra le righe */
+.detail-row td {
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
+
+.reset-icon {
+    margin-left: 5px;
+    margin-right: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    color: #007bff;
+    transition: color 0.3s ease;
+}
+
+.reset-icon:hover {
+    color: #0056b3;
+}
+
+input[type="number"], select {
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    font-size: 14px;
+    width: 80px; /* Larghezza fissa per i campi di input */
+}
+
+button {
+    padding: 5px 10px;
+    font-size: 14px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+button.ACCESO {
+    background-color: green;
+}
+
+button.SPENTO {
+    background-color: red;
+}
+
+.graph-section {
+    margin-top: 20px;
+    padding: 15px;
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.graph-controls {
+    margin-bottom: 10px;
+}
+
+#graph-container {
+    width: 100%;
+    height: 150px;
+}
+
+.log-section {
+    background: #f9f9f9;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.log-buttons {
+    margin-bottom: 10px;
+}
+
+#log-container {
+    max-height: 150px;
+    overflow-y: auto;
+    font-size: 14px;
+}
+
+#log-container p {
+    margin: 5px 0;
+}
